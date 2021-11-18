@@ -29,6 +29,13 @@
 
 #define rw_write() clearbit(lcd_com_PORT,RW_lcd_com_digit)
 
+
+
+#define lcdCommand(cmnd) lcdSend(1,cmnd);
+
+#define lcdData(data) lcdSend(0,data);
+
+
   
 void E_h2l()
 {
@@ -37,6 +44,44 @@ void E_h2l()
   clearbit(lcd_com_PORT,E_lcd_com_digit);
   _delay_us(100);
 }
+
+void lcdSend(unsigned char choice,unsigned char msg)
+{
+  //lcd_data_PORT =(cmnd&0xf0)>>(4-lcd_data_digit);
+  clear4bit(lcd_data_PORT,lcd_data_digit);
+  lcd_send_4bit(msg);
+  //clearbit(lcd_com_PORT,RS_lcd_com_digit);
+  //clearbit(lcd_com_PORT,RW_lcd_com_digit);
+  if(choice)
+    rs_com(); //command
+  else
+    rs_data();
+  
+  rw_write();
+  E_h2l();
+  
+  //lcd_data_PORT =((cmnd<<4)&0xf0)>>(4-lcd_data_digit);
+  clear4bit(lcd_data_PORT,lcd_data_digit);
+  lcd_send_4bit((msg<<4));
+
+  E_h2l();
+}
+
+ /*
+
+void lcdCommand(unsigned char cmnd)
+{
+  lcdSend(1,cmnd);
+}
+
+
+void lcdData(unsigned char data)
+{
+  lcdSend(0,data);
+}
+
+
+ 
 
 void lcdCommand(unsigned char cmnd)
 {
@@ -76,6 +121,7 @@ void lcdData(unsigned char data)
   E_h2l();
 }
 
+  */
 void lcd_init()
 {
   send_high_nibble_to_shift(lcd_data_dir,lcd_data_digit,0xff);
@@ -120,9 +166,10 @@ void lcd_print(char *str)
 int main() {
   lcd_init();
   lcd_gotoxy(1,1);
-  lcd_print("the world is but");
-  lcd_gotoxy(1,1);
-  lcd_print("one country");
+  //lcd_print("the world is but");
+  lcd_print("-Zyad Ahmed Said");
+  lcd_gotoxy(1,2);
+  lcd_print("Mackawy aka ZAM");
 	while(1)
   {
 	}
