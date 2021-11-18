@@ -4,21 +4,6 @@
 #include "macros.h"
 #include "hardware.h"
 
-#define LCD_DPRT lcd_data_PORT
-
-#define LCD_DDDR lcd_data_dir
-
-#define LCD_CPRT lcd_com_PORT
-
-#define LCD_CDDR lcd_com_dir
-
-#define LCD_RS RS_lcd_com_digit
-
-#define LCD_RW RW_lcd_com_digit
-
-#define LCD_E E_lcd_com_digit
-
-
 #define lcd_send_4bit(val) send_high_nibble_to_shift(lcd_data_PORT,lcd_data_digit,val)
 
 
@@ -47,11 +32,8 @@ void E_h2l()
 
 void lcdSend(unsigned char choice,unsigned char msg)
 {
-  //lcd_data_PORT =(cmnd&0xf0)>>(4-lcd_data_digit);
   clear4bit(lcd_data_PORT,lcd_data_digit);
   lcd_send_4bit(msg);
-  //clearbit(lcd_com_PORT,RS_lcd_com_digit);
-  //clearbit(lcd_com_PORT,RW_lcd_com_digit);
   if(choice)
     rs_com(); //command
   else
@@ -59,69 +41,13 @@ void lcdSend(unsigned char choice,unsigned char msg)
   
   rw_write();
   E_h2l();
-  
-  //lcd_data_PORT =((cmnd<<4)&0xf0)>>(4-lcd_data_digit);
   clear4bit(lcd_data_PORT,lcd_data_digit);
   lcd_send_4bit((msg<<4));
 
   E_h2l();
 }
 
- /*
 
-void lcdCommand(unsigned char cmnd)
-{
-  lcdSend(1,cmnd);
-}
-
-
-void lcdData(unsigned char data)
-{
-  lcdSend(0,data);
-}
-
-
- 
-
-void lcdCommand(unsigned char cmnd)
-{
-  //lcd_data_PORT =(cmnd&0xf0)>>(4-lcd_data_digit);
-  clear4bit(lcd_data_PORT,lcd_data_digit);
-  lcd_send_4bit(cmnd);
-  //clearbit(lcd_com_PORT,RS_lcd_com_digit);
-  rs_com();
-  //clearbit(lcd_com_PORT,RW_lcd_com_digit);
-  rw_write();
-  
-  E_h2l();
-  
-  //lcd_data_PORT =((cmnd<<4)&0xf0)>>(4-lcd_data_digit);
-  clear4bit(lcd_data_PORT,lcd_data_digit);
-  lcd_send_4bit((cmnd<<4));
-
-  E_h2l();
-}
-
-
-void lcdData(unsigned char data)
-{
-  clear4bit(lcd_data_PORT,lcd_data_digit);
-  lcd_send_4bit(data);
-  //clearbit(lcd_com_PORT,RS_lcd_com_digit);
-  rs_data();
-  //clearbit(lcd_com_PORT,RW_lcd_com_digit);
-  rw_write();
-  
-  E_h2l();
-  
-  //lcd_data_PORT =((cmnd<<4)&0xf0)>>(4-lcd_data_digit);
-  clear4bit(lcd_data_PORT,lcd_data_digit);
-  lcd_send_4bit((data<<4));
-
-  E_h2l();
-}
-
-  */
 void lcd_init()
 {
   send_high_nibble_to_shift(lcd_data_dir,lcd_data_digit,0xff);
@@ -166,8 +92,7 @@ void lcd_print(char *str)
 int main() {
   lcd_init();
   lcd_gotoxy(1,1);
-  //lcd_print("the world is but");
-  lcd_print("-Zyad Ahmed Said");
+  lcd_print(" Zyad Ahmed Said");
   lcd_gotoxy(1,2);
   lcd_print("Mackawy aka ZAM");
 	while(1)
