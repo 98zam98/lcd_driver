@@ -98,10 +98,31 @@ void lcd_init()
 }
 
 void lcd_gotoxy(unsigned char x,unsigned char y)
-{}
+{
+  unsigned char pos[] = {0x80,0xc0};
+  
+  lcdCommand(pos[y-1]+(x-1));;
+
+  _delay_us(100);
+}
+
+void lcd_print(char *str)
+{
+  unsigned char i = 0;
+  while(str[i] != 0)
+  {
+    lcdData(str[i]);
+    i++;
+  }
+}
 
 
-int main() {	
+int main() {
+  lcd_init();
+  lcd_gotoxy(1,1);
+  lcd_print("the world is but");
+  lcd_gotoxy(1,1);
+  lcd_print("one country");
 	while(1)
   {
 	}
