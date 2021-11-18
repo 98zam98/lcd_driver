@@ -19,7 +19,7 @@
 #define LCD_E E_lcd_com_digit
 
 
-#define lcd_send_4bit(val) high_nibble_to_shift(lcd_data_PORT,lcd_data_digit,val)
+#define lcd_send_4bit(val) send_high_nibble_to_shift(lcd_data_PORT,lcd_data_digit,val)
 
 
 
@@ -78,7 +78,7 @@ void lcdData(unsigned char data)
 
 void lcd_init()
 {
-  high_nibble_to_shift(lcd_data_dir,lcd_data_digit,0xff);
+  send_high_nibble_to_shift(lcd_data_dir,lcd_data_digit,0xff);
   
   setbit(lcd_com_dir,RS_lcd_com_digit);
   setbit(lcd_com_dir,RW_lcd_com_digit);
