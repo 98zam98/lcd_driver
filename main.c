@@ -1,9 +1,10 @@
 #include "config.h"
-//#include "lcd.h"
-//#include "lcd.c"
+#include "lcd.h"
+#include "lcd.c"
 #include "macros.h"
 #include "hardware.h"
 
+/*
 #define lcd_send_4bit(val) send_high_nibble_to_shift(lcd_data_PORT,lcd_data_digit,val)
 
 
@@ -87,12 +88,14 @@ void lcd_print(char *str)
     i++;
   }
 }
-
+ */
 
 int main() {
   lcd_init();
   lcd_gotoxy(1,1);
-  lcd_print(" Zyad Ahmed Said");
+  //lcd_print("123456789abcdefg");
+  //lcd_print(" Zyad Ahmed Said");
+  lcd_print("driver first try");
   lcd_gotoxy(1,2);
   lcd_print("Mackawy aka ZAM");
 	while(1)
